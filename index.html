@@ -6,8 +6,8 @@
   <title>Widget Genesys Cloud Teste</title>
 
   <!-- 🚨 IMPORTANTE -->
-  <!-- Essa página deve ser aberta em HTTPS ou localhost (ex: http://localhost:8080) -->
-  <!-- Não abrir diretamente como file:// pois causa erro de CSP -->
+  <!-- Abrir diretamente no navegador (HTTPS) ou localhost -->
+  <!-- Não abrir via iframe em domínios não permitidos, ou file:// -->
 
   <script type="text/javascript" charset="utf-8">
     (function (g, e, n, d, o) {
@@ -28,7 +28,9 @@
       'https://apps.mypurecloud.com/genesys-bootstrap/genesys.min.js',
       {
         environment: 'prod',
-        deploymentId: '033d09ed-b8a1-4a76-8ea3-922c51c0db7e'
+        deploymentId: '033d09ed-b8a1-4a76-8ea3-922c51c0db7e',
+        autoOpen: false, // evita problemas em iframes
+        showLauncher: true
       }
     );
   </script>
@@ -53,24 +55,39 @@
     .status {
       font-size: 14px;
       color: #555;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 4px;
+      border: none;
+      background-color: #0078d4;
+      color: white;
     }
   </style>
 </head>
 
 <body>
-  <h1>Widget Genesys Cloud Teste neon</h1>
-  <p class="status">O widget deve aparecer no canto inferior direito da tela.</p>
+  <h1>Widget Genesys Cloud Teste</h1>
+  <p class="status">Clique no botão abaixo para abrir o chat do Genesys.</p>
+
+  <button id="openChatBtn">Abrir Chat</button>
 
   <script>
-    // Espera o carregamento do script e abre o chat automaticamente
+    // Espera o carregamento do script
     window.addEventListener('load', function () {
       Genesys('subscribe', 'MessagingService.ready', function () {
         console.log('✅ Genesys Web Messaging inicializado corretamente.');
       });
 
-      // Abre o widget assim que estiver pronto
-      Genesys('command', 'MessagingService.open', {}, function (o) {
-        console.log('💬 Widget aberto com sucesso', o);
+      // Botão manual para abrir o widget
+      document.getElementById('openChatBtn').addEventListener('click', function () {
+        Genesys('command', 'MessagingService.open', {}, function (o) {
+          console.log('💬 Widget aberto com sucesso', o);
+        });
       });
     });
   </script>
