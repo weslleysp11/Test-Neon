@@ -1,24 +1,78 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Teste Genesys Cloud</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Widget Genesys Cloud Teste</title>
+
+  <!-- 🚨 IMPORTANTE -->
+  <!-- Essa página deve ser aberta em HTTPS ou localhost (ex: http://localhost:8080) -->
+  <!-- Não abrir diretamente como file:// pois causa erro de CSP -->
+
   <script type="text/javascript" charset="utf-8">
-    (function (g, e, n, es, ys) {
+    (function (g, e, n, d, o) {
       g['_genesysJs'] = e;
       g[e] = g[e] || function () {
-        (g[e].q = g[e].q || []).push(arguments)
+        (g[e].q = g[e].q || []).push(arguments);
       };
       g[e].t = 1 * new Date();
-      g[e].c = es;
-      ys = document.createElement('script'); ys.async = 1; ys.src = n; ys.charset = 'utf-8'; document.head.appendChild(ys);
-    })(window, 'Genesys', 'https://apps.mypurecloud.com/genesys-bootstrap/genesys.min.js', {
-      environment: 'prod',
-      deploymentId: '033d09ed-b8a1-4a76-8ea3-922c51c0db7e'
-    });
+      g[e].c = d;
+      o = document.createElement('script');
+      o.async = 1;
+      o.src = n;
+      o.charset = 'utf-8';
+      document.head.appendChild(o);
+    })(
+      window,
+      'Genesys',
+      'https://apps.mypurecloud.com/genesys-bootstrap/genesys.min.js',
+      {
+        environment: 'prod',
+        deploymentId: '033d09ed-b8a1-4a76-8ea3-922c51c0db7e'
+      }
+    );
   </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f9fb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .status {
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
 </head>
+
 <body>
   <h1>Widget Genesys Cloud Teste</h1>
+  <p class="status">O widget deve aparecer no canto inferior direito da tela.</p>
+
+  <script>
+    // Espera o carregamento do script e abre o chat automaticamente
+    window.addEventListener('load', function () {
+      Genesys('subscribe', 'MessagingService.ready', function () {
+        console.log('✅ Genesys Web Messaging inicializado corretamente.');
+      });
+
+      // Abre o widget assim que estiver pronto
+      Genesys('command', 'MessagingService.open', {}, function (o) {
+        console.log('💬 Widget aberto com sucesso', o);
+      });
+    });
+  </script>
 </body>
 </html>
