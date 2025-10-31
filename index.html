@@ -7,7 +7,7 @@
 
   <!-- 🚨 IMPORTANTE -->
   <!-- Abrir diretamente no navegador (HTTPS) ou localhost -->
-  <!-- Não abrir via iframe em domínios não permitidos -->
+  <!-- Não abrir via iframe em domínios que não são permitidos pelo Genesys Cloud -->
 
   <script type="text/javascript" charset="utf-8">
     (function (g, e, n, d, o) {
@@ -29,7 +29,7 @@
       {
         environment: 'prod',
         deploymentId: '033d09ed-b8a1-4a76-8ea3-922c51c0db7e',
-        autoOpen: false,
+        autoOpen: false, // evita abrir prematuramente
         showLauncher: true
       }
     );
@@ -66,6 +66,11 @@
       border: none;
       background-color: #0078d4;
       color: white;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background-color: #005a9e;
     }
   </style>
 </head>
@@ -77,15 +82,16 @@
   <button id="openChatBtn">Abrir Chat</button>
 
   <script>
-    // Aguarda o carregamento do widget
+    // Espera o carregamento do widget
     window.addEventListener('load', function () {
       Genesys('subscribe', 'MessagingService.ready', function () {
         console.log('✅ Genesys Web Messaging inicializado corretamente.');
 
-        // Botão manual para abrir o widget
+        // Botão manual para abrir o chat
         document.getElementById('openChatBtn').addEventListener('click', function () {
           Genesys('command', 'MessagingService.open', {}, function (o) {
             console.log('💬 Widget aberto com sucesso', o);
+            alert('Chat aberto com sucesso!'); // feedback visual para o cliente
           });
         });
       });
